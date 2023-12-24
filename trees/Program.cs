@@ -1,3 +1,5 @@
-﻿using trees.ABT;
+﻿using trees.ABST;
+using trees.ABT;
 
-BinaryTreeTests.Test();
+//BinaryTreeTests.Test();
+BinarySearchTreeTests.Test();
