@@ -171,6 +171,100 @@ namespace trees.ABT
             while(ix != 0)
             {
                 List<string> line = new ();
+                ix = 0;
+                foreach(IAbstractBinaryTree<E> x in level)
+                {
+                    if(x == null)
+                    {
+                        line.Add(null);
+                        next.Add(null);
+                        next.Add(null);
+                    }
+                    else
+                    {
+                        string temp = x.GetKey().ToString();
+                        line.Add(temp);
+                        if (temp.Length > widest) widest = temp.Length;
+                        next.Add(x.GetLeft());
+                        next.Add(x.GetRight());
+                        if (x.GetLeft() != null || x.GetRight != null) ix++;
+                    }
+                }
+                if (widest % 2 == 1) widest++;
+                lines.Add(line);
+                (next, level) = (level, next);
+                next.Clear();
+            }
+
+            int piece = lines.ElementAt(lines.Count() - 1).Count() * (widest + 4);
+            for (int i = 0; i < lines.Count(); i++)
+            {
+                List<string> line = lines.ElementAt(i);
+                int hpw = (int)Math.Floor(piece / 2.0) - 1;
+                if (i > 0)
+                {
+                    for (int j = 0; j < line.Count(); j++)
+                    {
+                        char c = ' ';
+                        if(j % 2 == 1)
+                        {
+                            if (line.ElementAt(j - 1) != null)
+                            {
+                                c = (line.ElementAt(j) != null) ? '┴' : '┘';
+                            }
+
+                            else if (j < line.Count() && line.ElementAt(j) != null) c = '└';
+                        }
+
+                        Console.Write(c);
+
+                        if (line.ElementAt(j) == null)
+                        {
+                            for (int k = 0; k < piece - 1; k++)
+                            {
+                                Console.Write(" ");
+                            }
+                        }
+                        else
+                        {
+                            for(int k = 0; k < hpw; k++)
+                            {
+                                Console.Write(j % 2 == 0 ? " " : "─");
+                            }
+
+                            Console.Write(j % 2 == 0 ? "┌" : "┐");
+
+                            for(int k = 0; k < hpw; k++)
+                            {
+                                Console.Write(j % 2 == 0 ? "─" : " ");
+                            }
+                        }
+                    }
+
+                    Console.WriteLine();
+                    
+                }
+
+                for (int z = 0; z < line.Count(); z++)
+                {
+                    if (line.ElementAt(z) == null) line[z] = "";
+                    int gap1 = (int)Math.Ceiling(piece / 2.0 - line.ElementAt(z).Length / 2.0);
+                    int gap2 = (int)Math.Floor(piece / 2.0 - line.ElementAt(z).Length / 2.0);
+                    for (int k = 0; k < gap1; k++)
+                    {
+                        Console.Write(" ");
+                    }
+
+                    Console.Write(line.ElementAt(z));
+
+                    for (int k = 0; k < gap2; k++)
+                    {
+                        Console.Write(" ");
+                    }
+                }
+
+                Console.WriteLine();
+                piece /= 2;
             }
 
         }
